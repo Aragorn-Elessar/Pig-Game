@@ -11,3 +11,4 @@ const diceEl = document.querySelector('.dice');
 
 score0El.textContent = 0;
 score1El.textContent = 0;
+diceEl.classList.add('hidden');
