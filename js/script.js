@@ -22,7 +22,7 @@ score0El.textContent = 0;
 score1El.textContent = 0;
 diceEl.classList.add('hidden');
 
-const scores = [0, 0];
+let scores = [0, 0];
 let currentScore = 0;
 let activePlayer = 0;
 
@@ -88,8 +88,39 @@ const holdScore = function () {
   }
 };
 
+const newGame = function () {
+  // Remove dice icon & special winner style
+  diceEl.classList.add('hidden');
+  document
+    .querySelector(`.player--${activePlayer}`)
+    .classList.remove('player--winner');
+
+  // Set total score to zero
+  score0El.textContent = 0;
+  score1El.textContent = 0;
+  scores = [0, 0];
+
+  // Set current score to zero
+  currentScore = 0;
+  document.getElementById(`current--${activePlayer}`).textContent = 0;
+
+  // Return event listeners functionality for Roll & Hold
+  btnRoll.addEventListener('click', rollingDice);
+  btnHold.addEventListener('click', holdScore);
+
+  // Set the first to play to player 1
+  if (!player0.classList.contains('player--active')) {
+    activePlayer = 0;
+    player0.classList.toggle('player--active');
+    player1.classList.toggle('player--active');
+  }
+};
+
 // Rolling dice funtcionality
 btnRoll.addEventListener('click', rollingDice);
 
 // Hold button functionality
 btnHold.addEventListener('click', holdScore);
+
+// New game button functionality
+btnNew.addEventListener('click', newGame);
