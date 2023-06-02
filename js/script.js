@@ -27,6 +27,18 @@ let currentScore = 0;
 let activePlayer = 0;
 
 /**
+ * Helper Functions
+ *
+ */
+const switchPlayer = function () {
+  currentScore = 0;
+  document.getElementById(`current--${activePlayer}`).textContent = 0;
+  activePlayer = activePlayer === 0 ? 1 : 0;
+  player0.classList.toggle('player--active');
+  player1.classList.toggle('player--active');
+};
+
+/**
  * Main Functions
  *
  */
@@ -47,12 +59,8 @@ const rollingDice = function () {
 
     // current0El.textContent = currentScore;
   } else {
-    // Switch to next player
-    currentScore = 0;
-    document.getElementById(`current--${activePlayer}`).textContent = 0;
-    activePlayer = activePlayer === 0 ? 1 : 0;
-    player0.classList.toggle('player--active');
-    player1.classList.toggle('player--active');
+    // Set current score to zero & switch players
+    switchPlayer();
   }
 };
 
@@ -75,15 +83,8 @@ const holdScore = function () {
     btnRoll.removeEventListener('click', rollingDice);
     btnHold.removeEventListener('click', holdScore);
   } else {
-    // Set current score to zero
-    currentScore = 0;
-    document.getElementById(`current--${activePlayer}`).textContent = 0;
-
-    // Switch players
-    activePlayer = activePlayer === 0 ? 1 : 0;
-    player0.classList.toggle('player--active');
-    player1.classList.toggle('player--active');
-    console.log(scores);
+    // Set current score to zero & switch players
+    switchPlayer();
   }
 };
 
