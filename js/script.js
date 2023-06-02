@@ -26,8 +26,11 @@ const scores = [0, 0];
 let currentScore = 0;
 let activePlayer = 0;
 
-// Rolling dice funtcionality
-btnRoll.addEventListener('click', function () {
+/**
+ * Main Functions
+ *
+ */
+const rollingDice = function () {
   // 1. Generate a random dice roll
   const dice = Math.floor(Math.random() * 6) + 1;
 
@@ -48,8 +51,44 @@ btnRoll.addEventListener('click', function () {
     currentScore = 0;
     document.getElementById(`current--${activePlayer}`).textContent = 0;
     activePlayer = activePlayer === 0 ? 1 : 0;
-    // diceEl.classList.add('hidden');
     player0.classList.toggle('player--active');
     player1.classList.toggle('player--active');
   }
-});
+};
+
+const holdScore = function () {
+  // Add current score to total score & display it
+  scores[activePlayer] += Number(
+    document.getElementById(`current--${activePlayer}`).textContent
+  );
+  document.getElementById(`score--${activePlayer}`).textContent =
+    scores[activePlayer];
+
+  //Check if score >= 100
+  if (scores[activePlayer] >= 10) {
+    // Set a special style to the winner
+    document
+      .querySelector(`.player--${activePlayer}`)
+      .classList.add('player--winner');
+
+    // Disable the Roll & Hold buttons functionality
+    btnRoll.removeEventListener('click', rollingDice);
+    btnHold.removeEventListener('click', holdScore);
+  } else {
+    // Set current score to zero
+    currentScore = 0;
+    document.getElementById(`current--${activePlayer}`).textContent = 0;
+
+    // Switch players
+    activePlayer = activePlayer === 0 ? 1 : 0;
+    player0.classList.toggle('player--active');
+    player1.classList.toggle('player--active');
+    console.log(scores);
+  }
+};
+
+// Rolling dice funtcionality
+btnRoll.addEventListener('click', rollingDice);
+
+// Hold button functionality
+btnHold.addEventListener('click', holdScore);
